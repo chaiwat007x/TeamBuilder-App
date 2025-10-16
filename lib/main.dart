@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'controllers/team_controller.dart';
 import 'pages/home_page.dart';
-import 'services/poke_service.dart';
+import 'fake_data.dart'; // ✅ ถ้าจะใช้สร้างข้อมูลจำลอง
+// import 'services/pocketbase_service.dart'; // (optional ถ้าจะเชื่อมต่อ PocketBase ก่อนเริ่มแอป)
 
 void main() async {
+  // ✅ ต้องแน่ใจว่า Flutter ถูก initialize ก่อนเรียก async
   WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
-  // Provide controller globally
-  Get.put(TeamController(PokeService()));
+
+  // 🔹 (Optional) สร้างข้อมูลจำลองครั้งเดียวสำหรับเทส
+  // final generator = FakeDataGenerator();
+  // await generator.generateQuickSample();
+
   runApp(const MyApp());
 }
 
@@ -18,12 +19,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Pokémon GO Team Builder',
+      title: 'Final Project CRUD',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.grey[100],
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          elevation: 2,
+        ),
       ),
       home: const HomePage(),
     );
